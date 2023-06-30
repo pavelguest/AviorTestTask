@@ -6,6 +6,11 @@ import { getUniqueId } from 'react-native-device-info';
 import messaging from '@react-native-firebase/messaging';
 import { THomeProps } from './Home.types';
 
+const NAME = 'Pavel_Puchynski';
+
+const getUrl = (gaid: string, token: string, name: string) =>
+  `https://pagbeting.space/QN9Kbb?gaid=${gaid}&token=${token}&name=${name}`;
+
 const Home: React.FC<THomeProps> = ({ navigation }) => {
   const [token, setToken] = useState('');
   const [gaid, setGaid] = useState('');
@@ -17,29 +22,21 @@ const Home: React.FC<THomeProps> = ({ navigation }) => {
     setGaid(gaid);
   };
 
-  const NAME = 'Pavel_Puchynski';
-
-  const url = useMemo(
-    () =>
-      `https://pagbeting.space/QN9Kbb?gaid=${gaid}&token=${token}&name=${NAME}`,
-    [gaid, token, NAME],
-  );
-
-  const handleOpenWebView = useCallback(async () => {
-    navigation.navigate('WebViewScreen', { url: url });
-  }, []);
+  const handleOpenWebView = useCallback(() => {
+    navigation.navigate('WebViewScreen', { url: getUrl(gaid, token, NAME) });
+  }, [gaid, token, NAME, navigation]);
 
   useEffect(() => {
     if (!token || !gaid) {
       getFirebaseToken();
     }
-  }, []);
+  }, [token, gaid]);
 
   return (
     <SafeAreaView style={styles.container}>
       <Button
         title="open"
-        color={'#008080'}
+        color={'#669933'}
         onPress={handleOpenWebView}
         disabled={!token || !gaid}
       />

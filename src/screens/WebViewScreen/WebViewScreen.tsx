@@ -19,6 +19,8 @@ const WebViewScreen: React.FC<TWebViewScreenProps> = ({
 
   const url = route.params.url;
 
+  console.log(url);
+
   const renderLoading = useCallback(
     () => (
       <ActivityIndicator
